@@ -656,13 +656,21 @@ contract usingProvable {
         return address(iaddr);
     }
 
-    function strCompare(string memory _a, string memory _b) internal pure returns (int _returnCode) {
+    function strCompare(string memory _a, string memory _b) public  pure returns (int _returnCode) {
         bytes memory a = bytes(_a);
         bytes memory b = bytes(_b);
+
+        if (a.length < b.length) {
+            return -1;
+        } else if (a.length > b.length) {
+            return 1;
+        }
+
         uint minLength = a.length;
         if (b.length < minLength) {
             minLength = b.length;
         }
+
         for (uint i = 0; i < minLength; i ++) {
             if (a[i] < b[i]) {
                 return -1;
@@ -670,13 +678,7 @@ contract usingProvable {
                 return 1;
             }
         }
-        if (a.length < b.length) {
-            return -1;
-        } else if (a.length > b.length) {
-            return 1;
-        } else {
-            return 0;
-        }
+       return 0;
     }
 
     function indexOf(string memory _haystack, string memory _needle) internal pure returns (int _returnCode) {
